@@ -1,0 +1,15 @@
+
+<div class="chat-box">
+  <div class="box">
+    <input type="text" placeholder="Enter Your Name" [(ngModel)]="sender">
+    <button (click)="delete()">Delete</button></div>
+  
+    <div *ngFor="let msg of messages">
+      <strong>{{ msg.sender }}</strong>: {{ msg.message }}
+    </div>
+</div>
+<div class="btn-block">
+  <input [(ngModel)]="message" placeholder="Type a message" />
+  <button (click)="sendMessage()">Send</button>
+</div>
+  

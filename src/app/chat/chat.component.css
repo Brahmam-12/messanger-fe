@@ -1,0 +1,91 @@
+/* Base styles for the chat box and its elements */
+.chat-box {
+    background: antiquewhite;
+    width: 100%; /* Full width by default */
+    max-width: 500px; /* Maximum width for larger screens */
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: large;
+    overflow: auto;
+    margin: 0 auto; /* Center the chat box horizontally */
+    gap: 10px;
+    padding: 15px;
+}
+.box{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+input {
+    height: 40px;
+    width: 100%; /* Full width by default */
+    max-width: 250px; /* Maximum width for larger screens */
+    border-radius: 10px;
+    padding: 0 10px; /* Add some padding for better UX */
+}
+
+button {
+    height: 45px;
+    width: 100%; /* Full width by default */
+    max-width: 64px; /* Maximum width for larger screens */
+    border-radius: 10px;
+    background: #9797e7;
+    color: black;
+    border: none;
+}
+
+/* Container for button block */
+.btn-block {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    font-size: large;
+    overflow: auto;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .chat-box {
+        height: 400px; /* Adjust height for smaller screens */
+    }
+
+    input {
+        height: 35px; /* Adjust height */
+        max-width: 200px; /* Adjust maximum width */
+    }
+
+    button {
+        height: 40px; /* Adjust height */
+        max-width: 50px; /* Adjust maximum width */
+    }
+
+    .btn-block {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-box {
+        height: 300px; /* Adjust height further for very small screens */
+    }
+
+    input {
+        height: 30px; /* Adjust height */
+        max-width: 150px; /* Adjust maximum width */
+    }
+
+    button {
+        height: 35px; /* Adjust height */
+        max-width: 45px; /* Adjust maximum width */
+    }
+
+    .btn-block {
+        flex-direction: column; /* Ensure buttons stack vertically */
+        align-items: center; /* Center buttons in the block */
+    }
+}
