@@ -1,15 +1,22 @@
-
-<div class="chat-box">
-  <div class="box">
-    <input type="text" placeholder="Enter Your Name" [(ngModel)]="sender">
-    <button (click)="delete()">Delete</button></div>
+<div class="main">
+  <div class="chat-header">
+    <input type="text" placeholder="Enter Your Name" [(ngModel)]="sender" class="name-input">
+    <button class="delete-btn" (click)="delete()">Delete</button>
+  </div>
   
-    <div *ngFor="let msg of messages">
-      <strong>{{ msg.sender }}</strong>: {{ msg.message }}
+  <div class="chat-container">
+    <div class="chat-box">
+      <div *ngFor="let msg of messages" [ngClass]="{'my-message': msg.sender === sender, 'other-message': msg.sender !== sender}">
+        <span class="sender" *ngIf="msg.sender != sender">{{ msg.sender }}:</span>
+        <span class="text">{{ msg.message }}</span>
+      </div>
     </div>
-</div>
-<div class="btn-block">
-  <input [(ngModel)]="message" placeholder="Type a message" />
-  <button (click)="sendMessage()">Send</button>
-</div>
+  </div>
   
+  <div class="chat-footer">
+    <input [(ngModel)]="message" placeholder="Type a message" class="message-input" />
+    <button class="send-btn" (click)="sendMessage()">Send</button>
+  </div>
+</div>
+
+
