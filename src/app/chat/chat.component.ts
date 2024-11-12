@@ -18,34 +18,32 @@ export class ChatComponent implements OnInit {
   this.getMessages();
 
   this.chatService.listenForMessages().subscribe((msg: any) => {
-    console.log('New message received:', msg);
-    this.messages.unshift(msg); // Add new message to the top
+    this.messages.push(msg); 
   });
 }
 
 
   getMessages() {
+    this.messages = [];
     this.chatService.getMessages().subscribe((messages: any[]) => {
       this.messages = messages;
     });
   }
 
   sendMessage() {
-    if (!this.message.trim()) return; // Prevent sending empty messages
+    if (!this.message.trim()) return; 
   
     const msg = {
-      sender: this.sender, // Dynamically set sender
+      sender: this.sender === '' ? 'Unknown User' : this.sender, 
       receiver: this.receiver,
       message: this.message,
     };
-  
-    console.log('Sending message:', msg); // Debugging line
-    this.chatService.sendMessage(msg).subscribe(() => {
-      this.message = '';
-    });
-  
-    this.chatService.emitMessage(msg); // Emit through WebSocket
+
+    this.chatService.emitMessage(msg);
+    this.message = ''; 
   }
+  
+
   delete(){
     this.chatService.deleteData().subscribe((data:any)=>{
       console.log(data)
