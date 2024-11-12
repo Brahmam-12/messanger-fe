@@ -1,91 +1,146 @@
-/* Base styles for the chat box and its elements */
-.chat-box {
-    background: antiquewhite;
-    width: 100%; /* Full width by default */
-    max-width: 500px; /* Maximum width for larger screens */
-    height: 500px;
+
+
+   html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    font-size: large;
-    overflow: auto;
-    margin: 0 auto; /* Center the chat box horizontally */
-    gap: 10px;
-    padding: 15px;
-}
-.box{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-}
-input {
-    height: 40px;
-    width: 100%; /* Full width by default */
-    max-width: 250px; /* Maximum width for larger screens */
-    border-radius: 10px;
-    padding: 0 10px; /* Add some padding for better UX */
+    box-sizing: border-box;
 }
 
-button {
-    height: 45px;
-    width: 100%; /* Full width by default */
-    max-width: 64px; /* Maximum width for larger screens */
-    border-radius: 10px;
-    background: #9797e7;
-    color: black;
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    border: 1px solid #cecccc;
+}
+
+.chat-header {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+.name-input {
+    flex: 1;
+    height: 35px;
+    border-radius: 8px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.delete-btn {
+    height: 35px;
+    padding: 0 15px;
+    border-radius: 8px;
+    background-color: #e74c3c;
+    color: white;
     border: none;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-/* Container for button block */
-.btn-block {
-    width: 100%;
-    max-width: 500px;
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.chat-container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-image: url('backdrop.jfif');
+    background-size: cover;
+    background-position: center;
+    overflow-y: auto;
+}
+
+.chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.my-message {
+  align-self: flex-end;
+  background-color: #d1e7dd; /* Customize background color */
+  padding: 8px;
+  border-radius: 8px;
+  margin: 5px;
+  max-width: 60%;
+}
+
+.other-message {
+  align-self: flex-start;
+  background-color: #f8d7da; /* Customize background color */
+  padding: 8px;
+  border-radius: 8px;
+  margin: 5px;
+  max-width: 60%;
+}
+.sender {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.text {
+    word-wrap: break-word;
+}
+
+.chat-footer {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
     display: flex;
     align-items: center;
-    font-size: large;
-    overflow: auto;
-    margin: 0 auto;
-    justify-content: space-between;
+    z-index: 1000;
 }
 
-/* Media queries for responsiveness */
+.message-input {
+    flex: 1;
+    height: 35px;
+    border-radius: 8px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.send-btn {
+    height: 35px;
+    padding: 0 15px;
+    border-radius: 8px;
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.send-btn:hover {
+    background-color: #4c42d4;
+}
+
 @media (max-width: 768px) {
+    .name-input, .message-input, .delete-btn, .send-btn {
+        height: 30px;
+    }
+
+    .chat-header, .chat-footer {
+        padding: 5px;
+    }
+
     .chat-box {
-        height: 400px; /* Adjust height for smaller screens */
-    }
-
-    input {
-        height: 35px; /* Adjust height */
-        max-width: 200px; /* Adjust maximum width */
-    }
-
-    button {
-        height: 40px; /* Adjust height */
-        max-width: 50px; /* Adjust maximum width */
-    }
-
-    .btn-block {
-        flex-direction: column; /* Stack buttons vertically on smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .chat-box {
-        height: 300px; /* Adjust height further for very small screens */
-    }
-
-    input {
-        height: 30px; /* Adjust height */
-        max-width: 150px; /* Adjust maximum width */
-    }
-
-    button {
-        height: 35px; /* Adjust height */
-        max-width: 45px; /* Adjust maximum width */
-    }
-
-    .btn-block {
-        flex-direction: column; /* Ensure buttons stack vertically */
-        align-items: center; /* Center buttons in the block */
+        padding: 10px;
     }
 }
