@@ -1,102 +1,103 @@
-
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .main {
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 25px);
-    border: 1px solid #cecccc;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border: 1px solid #cecccc;
 }
 
-.chat-header {
-    flex: 0 0 auto;
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    z-index: 1000;
-    background-color: #f9f9f9;
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-start;
+  background-image: linear-gradient(rgba(34, 139, 34, 0.5), rgba(34, 139, 34, 0.5)), url(backdrop.jfif);
+  background-size: cover;
+  background-position: center;
+  overflow-y: auto;
+  background-blend-mode: overlay;
+}
+
+.chat-header,
+.chat-footer {
+  flex: 0 0 auto;
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-top: 1px solid #ddd;
+  z-index: 1000;
+  align-items: center;
+  display: flex;
 }
 
 .name-input {
-    flex: 1;
-    height: 35px;
-    padding: 0 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 13px;
-    background-color: #f7f7f7;
-    transition: border-color 0.3s;
+  flex: 1;
+  height: 35px;
+  padding: 0 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f7f7f7;
+  transition: border-color 0.3s;
 }
 
 .name-input:focus {
-    outline: none;
-    border-color: #007bff;
+  outline: none;
+  border-color: #007bff;
 }
 
 .delete-btn {
-    background-color: transparent;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .delete-btn:hover {
-    background-color: #ff4d4f;  /* Red background on hover */
-    transform: scale(1.1);  /* Slight scale effect when hovered */
-  }
-  
-  .delete-btn svg {
-    fill: #ff4d4f;  /* Red color for the icon */
-    width: 20px;
-    height: 20px;
-  }
-  
-  .delete-btn:focus {
-    outline: none;  /* Remove focus outline */
-  }
-
-.chat-container {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background-image: linear-gradient(rgba(34, 139, 34, 0.5), rgba(34, 139, 34, 0.5)), url(backdrop.jfif);
-    background-size: cover;
-    background-position: center;
-    overflow-y: auto;
-    background-blend-mode: overlay;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
+.delete-btn:hover {
+  background-color: #ff4d4f;
+  transform: scale(1.1);
+}
+
+.delete-btn svg {
+  fill: #ff4d4f;
+  width: 20px;
+  height: 20px;
+}
+
+.delete-btn:focus {
+  outline: none;
+}
+
+
 
 .chat-box {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-grow: 1;
 }
-
 
 .my-message {
   align-self: flex-end;
-    max-width: 60%;
-    background-color: rgb(0, 132, 255);
-    color: rgb(255, 255, 255);
-    padding: 8px;
-    margin: 5px;
-    border-radius: 15px 15px 5px;
+  max-width: 60%;
+  background-color: rgb(0, 132, 255);
+  color: rgb(255, 255, 255);
+  padding: 8px;
+  margin: 5px;
+  border-radius: 15px 15px 5px;
 }
 
 .other-message {
@@ -108,50 +109,41 @@ html, body {
   margin: 5px;
   border-radius: 15px 15px 15px 5px;
 }
+
 .sender {
-    font-weight: bold;
-    margin-right: 5px;
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 .text {
-    word-wrap: break-word;
-}
-
-.chat-footer {
-    flex: 0 0 auto;
-    background-color: #f9f9f9;
-    padding: 10px 15px;
-    border-top: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    z-index: 1000;
+  word-wrap: break-word;
 }
 
 .message-input {
-    flex: 1;
-    height: 35px;
-    padding: 5px 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #f7f7f7;
-    transition: border-color 0.3s;
+  flex: 1;
+  height: 35px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f7f7f7;
+  transition: border-color 0.3s;
 }
 
 .message-input:focus {
-    outline: none;
-    border-color: #007bff;
-  }
+  outline: none;
+  border-color: #007bff;
+}
 
 .send-btn {
-    background-color: #4CAF50;
-    border: none;
-    padding: 6px 6px 0px 6px;
-    border-radius: 46%;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    height: 100% !important;
+  background-color: #4CAF50;
+  border: none;
+  padding: 6px 6px 0px 6px;
+  border-radius: 46%;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  height: 100% !important;
 }
 
 .send-btn:hover {
@@ -168,15 +160,35 @@ html, body {
 }
 
 @media (max-width: 768px) {
-    .name-input, .message-input, .delete-btn, .send-btn {
-        height: 30px;
-    }
 
-    .chat-header, .chat-footer {
-        padding: 5px;
-    }
+  .chat-header,
+  .chat-footer {
+    padding: 5px;
+    height: auto;
+    /* Adjust height for smaller screens */
+  }
 
-    .chat-box {
-        padding: 10px;
-    }
+  .message-input {
+    font-size: 14px;
+    /* Reduce font size */
+  }
+
+  .chat-box {
+    padding: 5px;
+    /* Reduce padding for more space */
+  }
+}
+
+@media (max-width: 480px) {
+
+  .name-input,
+  .message-input {
+    height: 25px;
+    /* Further adjust input height */
+  }
+
+  .send-btn,
+  .delete-btn {
+    padding: 4px;
+  }
 }
