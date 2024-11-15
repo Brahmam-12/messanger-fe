@@ -9,10 +9,7 @@ import { io } from 'socket.io-client';
 export class ChatService {
   private socket = io('https://messanger-z2m6.onrender.com');
 
-  constructor(private http: HttpClient) {
-    // Initialize WebSocket listeners
-    this.setupSocketListeners();
-  }
+  constructor(private http: HttpClient) {}
 
   getMessages(): Observable<any[]> {
     return this.http.get<any[]>('https://messanger-z2m6.onrender.com/api/messages');
