@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -7,36 +8,46 @@ import { ChatService } from './chat.service';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit, OnDestroy {
+  @ViewChild('chatContainer') chatContainer!: ElementRef;
+  @ViewChild('inputBox') inputBox!: ElementRef;
+
   messages: any[] = [];
   message = '';
   sender = '';
   receiver = 'User2';
-  private resizeListener!: () => void;
-  private initialWindowHeight: number = window.innerHeight;
-
-  constructor(private chatService: ChatService, private renderer: Renderer2) { }
+  isTyping = false;
+  typingTimer: any;
+  typingSubscription!: Subscription;
+  messageSubscription!: Subscription;
+  typer = ''
+  
+  constructor(private chatService: ChatService, private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(window.innerHeight);
-    this.resizeListener = this.renderer.listen('window', 'resize', this.onResize.bind(this));
-    this.onResize();
-
     this.getMessages();
     this.chatService.listenForMessages().subscribe((msg: any) => {
       this.messages.push(msg);
     });
+    this.chatService.listenForTyping().subscribe((data: any) => {
+      if(data.typing){
+        this.typer = data.sender === '' ? 'Unknown User is typing...' : data.sender + ' is typing...';
+        this.isTyping = true;
+      }else{
+        this.isTyping = false;
+        this.typer = '';
+      }
+    });
   }
 
-  ngOnDestroy() {
-    if (this.resizeListener) {
-      this.resizeListener(); // Remove the event listener
-    }
-  }
+
 
   getMessages() {
     this.messages = [];
     this.chatService.getMessages().subscribe((messages: any[]) => {
       this.messages = messages;
+      setTimeout(() => {
+        this.scrollToBottom();
+      })
     });
   }
 
@@ -51,6 +62,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.chatService.emitMessage(msg);
     this.message = '';
+    this.inputBox.nativeElement.focus();
+    
+    this.emitTyping(false);
+    setTimeout(() => { 
+      this.scrollToBottom()
+    },50)
+ 
   }
 
 
@@ -61,27 +79,35 @@ export class ChatComponent implements OnInit, OnDestroy {
     })
   }
 
-  onResize() {
-    const chatContainer = document.querySelector('.chat-container') as HTMLElement;
-    const chatContent = document.querySelector('.chat-box') as HTMLElement;
-    const chatFooter = document.querySelector('.chat-footer') as HTMLElement;
-    const chatHeader = document.querySelector('.chat-header') as HTMLElement;
-
-    const currentWindowHeight = window.innerHeight;
-    const keyboardHeight = this.initialWindowHeight - currentWindowHeight;
-
-    if (keyboardHeight > 0) { // Keyboard is open
-      chatContainer.style.height = `calc(100vh - ${keyboardHeight}px)`;
-      chatFooter.style.position = 'fixed';
-      chatFooter.style.bottom = '0';
-      chatHeader.style.position = 'relative'; // Maintain header relative to avoid overlap
-      chatContent.style.height = `calc(100vh - ${keyboardHeight}px - ${chatFooter.offsetHeight}px - ${chatHeader.offsetHeight}px)`;
-    } else { // Keyboard is closed
-      chatContainer.style.height = '100%';
-      chatFooter.style.position = 'relative'; // Maintain relative position for better layout
-      chatHeader.style.position = 'relative';
-      chatContent.style.height = `calc(100vh - ${chatFooter.offsetHeight}px - ${chatHeader.offsetHeight}px)`;
+  scrollToBottom(): void {
+    const lastMessage = this.chatContainer.nativeElement.lastElementChild;
+    console.log(lastMessage)
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Scroll error:', err);
     }
   }
 
+  onTyping() {
+    clearTimeout(this.typingTimer);
+    this.emitTyping(true);
+    this.typingTimer = setTimeout(() => {
+      this.emitTyping(false);
+    }, 3000);
+  }
+
+  emitTyping(isTyping: boolean) {
+    this.chatService.emitTyping({ sender: this.sender, typing: isTyping });
+  }
+
+
+  ngOnDestroy() {
+    if (this.typingSubscription) {
+      this.typingSubscription.unsubscribe();
+    }
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+  }
 }  

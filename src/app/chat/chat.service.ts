@@ -34,14 +34,19 @@ export class ChatService {
     });
   }
 
+  listenForTyping(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('typing', (data: any) => {
+        observer.next(data);
+      });
+    });
+  }
+
   emitMessage(message: any) {
     this.socket.emit('sendMessage', message); // Use 'sendMessage' event
   }
 
-  private setupSocketListeners() {
-    // Set up listeners for incoming messages
-    this.socket.on('message', (message: any) => {
-      // Handle incoming messages
-    });
+  emitTyping(data: any) {
+    this.socket.emit('typing', data);
   }
 }
