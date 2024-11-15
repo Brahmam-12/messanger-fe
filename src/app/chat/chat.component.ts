@@ -66,8 +66,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.emitTyping(false);
     setTimeout(() => { 
       this.scrollToBottom()
-      this.inputBox.nativeElement.focus();
-    },50)
+    },20)
  
   }
 
@@ -84,6 +83,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     console.log(lastMessage)
     try {
       this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+      setTimeout(() => {  
+        this.inputBox.nativeElement.focus();
+      },10)
     } catch (err) {
       console.error('Scroll error:', err);
     }
