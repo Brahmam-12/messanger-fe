@@ -62,11 +62,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.chatService.emitMessage(msg);
     this.message = '';
-    this.inputBox.nativeElement.focus();
     
     this.emitTyping(false);
     setTimeout(() => { 
       this.scrollToBottom()
+      this.inputBox.nativeElement.focus();
     },50)
  
   }
