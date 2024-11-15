@@ -21,14 +21,19 @@ export class ChatComponent implements OnInit, OnDestroy {
   messageSubscription!: Subscription;
   typer = ''
   
-  constructor(private chatService: ChatService, private ref: ChangeDetectorRef) { }
+  constructor(private chatService: ChatService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getMessages();
+
     this.chatService.listenForMessages().subscribe((msg: any) => {
       this.messages.push(msg);
+      this.cdr.detectChanges();
+      this.scrollToBottom();
     });
+
     this.chatService.listenForTyping().subscribe((data: any) => {
+      this.scrollToBottom();
       if(data.typing){
         this.typer = data.sender === '' ? 'Unknown User is typing...' : data.sender + ' is typing...';
         this.isTyping = true;
@@ -61,13 +66,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     };
 
     this.chatService.emitMessage(msg);
+    this.inputBox.nativeElement.focus();
     this.message = '';
     
     this.emitTyping(false);
-    setTimeout(() => { 
-      this.scrollToBottom()
-    },20)
- 
   }
 
 
@@ -79,13 +81,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   scrollToBottom(): void {
-    const lastMessage = this.chatContainer.nativeElement.lastElementChild;
-    console.log(lastMessage)
     try {
       this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
-      setTimeout(() => {  
-        this.inputBox.nativeElement.focus();
-      },10)
     } catch (err) {
       console.error('Scroll error:', err);
     }
