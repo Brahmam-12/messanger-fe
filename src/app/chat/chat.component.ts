@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +23,24 @@ export class ChatComponent implements OnInit, OnDestroy {
   typer = ''
   
   constructor(private chatService: ChatService, private cdr: ChangeDetectorRef, private activatedroute: ActivatedRoute) { }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustMainContainerHeight();
+  }
+  private adjustMainContainerHeight() {
+    const mainContainer = document.querySelector('.main') as HTMLElement;
+    console.log(mainContainer)
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    console.log(viewportHeight)
+    const keyboardHeight = window.innerHeight - viewportHeight;
+    console.log(keyboardHeight)
+
+    if (keyboardHeight > 0) {
+      mainContainer.style.height = `calc(100vh - ${keyboardHeight}px)`;
+    } else {
+      mainContainer.style.height = 'calc(100vh - 2px)';
+    }
+  }
 
   ngOnInit(): void {
     this.activatedroute.queryParamMap.subscribe((params: any) => {
@@ -66,6 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
 
     this.getMessages();
+    this.adjustMainContainerHeight();
   }
 
   getMessages() {
