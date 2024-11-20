@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -21,41 +21,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   typingSubscription!: Subscription;
   messageSubscription!: Subscription;
   typer = ''
-  keyboardOpen = false;
-
-  constructor(private renderer: Renderer2, private chatService: ChatService, private cdr: ChangeDetectorRef, private activatedroute: ActivatedRoute) { }
-
-  @HostListener('window:resize')
-    onResize() {
-      this.adjustForKeyboard();
-    }
-
-  private adjustForKeyboard() {
-    const viewportHeight = window.innerHeight;
-    const visualViewport = window.visualViewport;
-
-    if (visualViewport && visualViewport.height < viewportHeight) {
-      // Keyboard is open
-      const keyboardHeight = viewportHeight - visualViewport.height;
-      this.keyboardOpen = true;
-      this.renderer.setStyle(
-        document.querySelector('.chat-container'),
-        'height',
-        `calc(100vh - ${keyboardHeight}px - var(--header-height) - var(--footer-height))`
-      );
-    } else {
-      // Keyboard is closed
-      this.keyboardOpen = false;
-      this.renderer.setStyle(
-        document.querySelector('.chat-container'),
-        'height',
-        'calc(100vh - var(--header-height) - var(--footer-height))'
-      );
-    }
-  }
+  
+  constructor(private chatService: ChatService, private cdr: ChangeDetectorRef, private activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.adjustForKeyboard();
     this.activatedroute.queryParamMap.subscribe((params: any) => {
       this.sender = params.params.user
       this.chatService.emitOnline({ username: this.sender, online: true });
@@ -98,8 +67,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.getMessages();
   }
-
-
 
   getMessages() {
     this.messages = [];
