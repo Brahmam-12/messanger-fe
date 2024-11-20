@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -21,13 +22,16 @@ export class ChatComponent implements OnInit, OnDestroy {
   messageSubscription!: Subscription;
   typer = ''
   
-  constructor(private chatService: ChatService, private cdr: ChangeDetectorRef) { }
+  constructor(private chatService: ChatService, private cdr: ChangeDetectorRef, private activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getMessages();
+    this.activatedroute.queryParamMap.subscribe((params: any) => {
+      this.sender = params.params.user
+      this.chatService.emitOnline({ username: this.sender, online: true });
+    });
 
     this.chatService.listenForMessages().subscribe((msg: any) => {
-      this.messages.push(msg);
+      this.messages.push({type: 'message', sender: msg.sender, message: msg.message});
       this.cdr.detectChanges();
       this.scrollToBottom();
     });
@@ -42,6 +46,26 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.typer = '';
       }
     });
+
+    this.chatService.listenForOnlineUsers().subscribe((data: any) => {
+      console.log(data)
+      if(data.username === this.sender) return;
+      else if(data.online === true){
+        this.messages.push({ 
+          type: 'status',
+          status: `${data.username} has joined the chat`
+        });
+      }else if(data.status === 'offline'){
+        this.messages.push({ 
+          type: 'status',
+          status: `${data.username} has left the chat`
+        });
+      }
+      
+      console.log(this.messages)
+    });
+
+    this.getMessages();
   }
 
 
@@ -49,7 +73,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   getMessages() {
     this.messages = [];
     this.chatService.getMessages().subscribe((messages: any[]) => {
-      this.messages = messages;
+      messages.forEach((msg) => {
+        this.messages.push({type: 'message', sender: msg.sender, message: msg.message});
+      });
+
       setTimeout(() => {
         this.scrollToBottom();
       })
@@ -68,7 +95,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatService.emitMessage(msg);
     this.inputBox.nativeElement.focus();
     this.message = '';
-    
+
     this.emitTyping(false);
   }
 

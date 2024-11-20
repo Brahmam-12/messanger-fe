@@ -39,11 +39,23 @@ export class ChatService {
     });
   }
 
+  listenForOnlineUsers(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('online', (data: any) => {
+        observer.next(data);
+      });
+    });
+  }
+
   emitMessage(message: any) {
     this.socket.emit('sendMessage', message); // Use 'sendMessage' event
   }
 
   emitTyping(data: any) {
     this.socket.emit('typing', data);
+  }
+
+  emitOnline(data: any) {
+    this.socket.emit('online', data);
   }
 }

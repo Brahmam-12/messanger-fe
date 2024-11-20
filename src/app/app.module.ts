@@ -4,16 +4,20 @@ import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule if you're using ngModel
 import { HttpClientModule } from '@angular/common/http';
+import { OnlineComponent } from './online/online.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent,  // Declare ChatComponent here
+    ChatComponent,
+    OnlineComponent,  
   ],
   imports: [
     BrowserModule,
     FormsModule,  // For ngModel to work
-    HttpClientModule  // To use HttpClient in the service
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

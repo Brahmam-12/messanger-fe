@@ -6,13 +6,23 @@
 }
 
 .chat-header {
-background-color: #f9f9f9;
 padding: 8px 10px 8px 1px;
-border-bottom: 1px solid #ddd;
 z-index: 1000;
 display: flex;
 align-items: center;
 flex: 0 0 auto;
+background-color: #007bff;
+color: white;
+border-bottom: 1px solid #ccc;
+border-radius: 8px 8px 0 0;
+justify-content: space-between;
+}
+
+.group-name {
+margin: 0;
+font-size: 20px;
+font-weight: bold;
+margin-left: 10px;
 }
 
 .chat-footer {
@@ -78,12 +88,12 @@ border-right: none;
 }
 
 .delete-btn:hover {
-  background-color: #ff4d4f;  
+  /* background-color: #ff4d4f;   */
   transform: scale(1.1);  
 }
 
 .delete-btn svg {
-  fill: #ff4d4f; 
+  /* fill: #ff4d4f;  */
   width: 20px;
   height: 20px;
 }
@@ -171,6 +181,25 @@ margin-bottom: 5px;
 margin-left: 10px;
 }
 
+.notification {
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 5px 10px;
+color: #5f5f5f; /* Slightly darker color for better readability */
+font-size: 15px;
+font-weight: 500;
+margin: 8px 0;
+}
+
+.join-notification {
+background: #e6f7ff; /* Light blue background */
+border-radius: 15px; /* Rounded corners for a softer look */
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+border: 1px solid #b3e0f7; /* Slight border for emphasis */
+padding: 3px 8px;
+width: fit-content;
+}
 @media (max-width: 768px) {
 .chat-header, .chat-footer {
   height: auto; /* Adjust height for smaller screens */
