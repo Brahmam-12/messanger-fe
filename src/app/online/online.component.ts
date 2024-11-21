@@ -32,7 +32,8 @@ export class OnlineComponent implements OnInit {
     this.mainContainer = document.getElementById('mainContainer');
     if (this.mainContainer) {
       this.viewportHeight = window.innerHeight;
-      this.mainContainer.style.height = `${this.viewportHeight}px`;
+      // this.mainContainer.style.height = `${this.viewportHeight}px`;
+      this.mainContainer.style.height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
     }
     this.viewportHeight1 = window.visualViewport ? window.visualViewport.height : window.innerHeight;
  
