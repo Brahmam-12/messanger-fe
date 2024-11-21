@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,6 +12,20 @@ export class OnlineComponent implements OnInit {
   userName = '';
 
   ngOnInit(): void {
+    this.adjustContainerHeight();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustContainerHeight();
+  }
+
+  adjustContainerHeight() {
+    const mainContainer = document.getElementById('mainContainer');
+    if (mainContainer) {
+      const viewportHeight = window.innerHeight;
+      mainContainer.style.height = `${viewportHeight}px`;
+    }
   }
 
   goToOnline() {
