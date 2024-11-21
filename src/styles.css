@@ -5,4 +5,5 @@ body, html{
     display: flex; 
     flex-direction: column; 
     box-sizing: border-box;
+    font-family: cursive;
 }

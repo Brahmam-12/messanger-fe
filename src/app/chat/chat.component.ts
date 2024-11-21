@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,8 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+
+export class ChatComponent implements OnInit {
   @ViewChild('chatContainer') chatContainer!: ElementRef;
   @ViewChild('inputBox') inputBox!: ElementRef;
 
@@ -18,8 +19,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   receiver = 'User2';
   isTyping = false;
   typingTimer: any;
-  typingSubscription!: Subscription;
-  messageSubscription!: Subscription;
   typer = ''
   
   constructor(private chatService: ChatService, private cdr: ChangeDetectorRef, private activatedroute: ActivatedRoute) { }
@@ -53,7 +52,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
 
     this.chatService.listenForTyping().subscribe((data: any) => {
-      this.scrollToBottom();
+      // this.scrollToBottom();
       if(data.typing){
         this.typer = data.sender === '' ? 'Unknown User is typing...' : data.sender + ' is typing...';
         this.isTyping = true;
@@ -64,7 +63,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
 
     this.chatService.listenForOnlineUsers().subscribe((data: any) => {
-      console.log(data)
       if(data.username === this.sender) return;
       else if(data.online === true){
         this.messages.push({ 
@@ -77,8 +75,8 @@ export class ChatComponent implements OnInit, OnDestroy {
           status: `${data.username} has left the chat`
         });
       }
-      
-      console.log(this.messages)
+      this.cdr.detectChanges();
+      this.scrollToBottom();
     });
 
     this.getMessages();
@@ -142,13 +140,4 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatService.emitTyping({ sender: this.sender, typing: isTyping });
   }
 
-
-  ngOnDestroy() {
-    if (this.typingSubscription) {
-      this.typingSubscription.unsubscribe();
-    }
-    if (this.messageSubscription) {
-      this.messageSubscription.unsubscribe();
-    }
-  }
 }  
