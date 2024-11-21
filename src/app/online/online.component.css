@@ -6,6 +6,7 @@
     text-align: center;
     height: 100vh;
     background: linear-gradient(180deg, #ffffff, #e3e9f3);
+    overflow: hidden;
 }
 
 .main {

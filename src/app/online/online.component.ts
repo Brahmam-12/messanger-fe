@@ -13,19 +13,31 @@ export class OnlineComponent implements OnInit {
 
   ngOnInit(): void {
     this.adjustContainerHeight();
+    window.addEventListener('resize', this.adjustContainerHeight);
   }
 
+  event: any
+  mainContainer: any
+  viewportHeight: any
+
+  viewportHeight1: any
+  keyboardHeight: any
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    this.event = event
     this.adjustContainerHeight();
   }
 
   adjustContainerHeight() {
-    const mainContainer = document.getElementById('mainContainer');
-    if (mainContainer) {
-      const viewportHeight = window.innerHeight;
-      mainContainer.style.height = `${viewportHeight}px`;
+    this.mainContainer = document.getElementById('mainContainer');
+    if (this.mainContainer) {
+      this.viewportHeight = window.innerHeight;
+      this.mainContainer.style.height = `${this.viewportHeight}px`;
     }
+    this.viewportHeight1 = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+ 
+    this.keyboardHeight = window.innerHeight - this.viewportHeight1;
+
   }
 
   goToOnline() {
