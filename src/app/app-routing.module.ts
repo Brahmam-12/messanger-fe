@@ -5,9 +5,8 @@ import { ChatComponent } from './chat/chat.component';
 
 
 const routes: Routes = [
-  { path: 'online', component: OnlineComponent },
+  { path: '', component: OnlineComponent },
   { path: 'chat', component: ChatComponent },
-  { path: '', redirectTo: 'online', pathMatch: 'full' },
   { path: '**', redirectTo: 'online' },
 ];
 

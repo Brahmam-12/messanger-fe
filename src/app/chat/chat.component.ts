@@ -1,8 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -114,10 +113,25 @@ export class ChatComponent implements OnInit {
 
 
   delete() {
-    this.chatService.deleteData().subscribe((data: any) => {
-      console.log(data)
-      this.getMessages()
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This action cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.chatService.deleteData().subscribe((data: any) => {
+          console.log(data)
+          this.getMessages()
+        })
+        Swal.fire('Deleted!', 'All messages have been deleted.', 'success');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire('Cancelled', 'Your messages are safe :)', 'error');
+      }
     })
+   
   }
 
   scrollToBottom(): void {
@@ -128,6 +142,13 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  scroolDown(){
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Scroll error:', err);
+    }
+  }
   onTyping() {
     clearTimeout(this.typingTimer);
     this.emitTyping(true);

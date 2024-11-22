@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule if you're us
 import { HttpClientModule } from '@angular/common/http';
 import { OnlineComponent } from './online/online.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +17,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,  // For ngModel to work
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

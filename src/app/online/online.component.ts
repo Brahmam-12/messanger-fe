@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-online',
   templateUrl: './online.component.html',
@@ -37,8 +37,16 @@ export class OnlineComponent implements OnInit {
   }
 
   goToOnline() {
-    if (this.userName.trim() === '') return;
-    else {
+    if (this.userName.trim() === '') {
+      Swal.fire({
+        title: 'Oops!',
+        text: 'Please enter a username',
+        icon: 'error',
+        timer: 2000,
+      });
+      
+      return; // Add a return statement here
+    } else {
       this.router.navigate(['/chat'], { queryParams: { user: this.userName } });
     }
   }

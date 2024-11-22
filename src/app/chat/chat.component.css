@@ -223,6 +223,19 @@
   width: fit-content;
 }
 
+button.scrool-down {
+  border: none;
+  position: fixed;
+  bottom: 70px;
+  right: 15px;
+  padding: 6px 4px 2px 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #201f1f;
+  color: white;
+}
+
+
 @media (max-width: 768px) {
   .chat-header, .chat-footer {
     font-size: 0.9rem;
